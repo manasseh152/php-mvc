@@ -1,0 +1,12 @@
+<link rel="stylesheet" href="/css/main.css" />
+<script type="module" src="/js/main.js"></script>
+
+<script src="https://unpkg.com/hyperscript.org@0.9.11"></script>
+
+{% if title %}
+<title>{{ title }}</title>
+{% else %}
+<title>
+	{{ global.appName }}
+</title>
+{% endif %}

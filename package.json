@@ -1,0 +1,21 @@
+{
+  "name": "my-todo",
+  "module": "resources/ts/main.ts",
+  "type": "module",
+  "devDependencies": {
+    "bun-types": "latest",
+    "concurrently": "^8.2.1",
+    "tailwindcss": "^3.3.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "dev": "clear && concurrently \"bun build --outdir public/js --minify ./resources/ts/main.ts\" \"php -S localhost:4000 -t public\" \"tailwindcss -i resources/css/main.css -o public/css/main.css --watch\"",
+    "build": "bun --out public/js/main.js resources/ts/main.ts && tailwindcss -i resources/css/main.css -o public/css/main.css"
+  },
+  "dependencies": {
+    "@tailwindcss/typography": "^0.5.10",
+    "htmx.org": "^1.9.5"
+  }
+}
