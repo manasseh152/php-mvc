@@ -1,0 +1,9 @@
+<ul class="flex flex-col gap-2" data-user-list>
+	{% for user in users %}
+	<li>{% include "partials/user/show.twig" %}</li>
+	{% else %}
+	<li class="flex flex-col gap-2 border border-slate-400 rounded p-1">
+		No users found
+	</li>
+	{% endfor %}
+</ul>

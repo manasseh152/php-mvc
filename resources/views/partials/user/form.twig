@@ -1,0 +1,47 @@
+<form
+	hx-post="{{ path('users/store') }}"
+	hx-swap="beforeend"
+	hx-target="[data-user-list]"
+	class="flex flex-col gap-2"
+>
+	<label class="flex flex-col gap-1">
+		<span class="text-lg font-bold">Name</span>
+		<input
+			type="text"
+			name="name"
+			value="{{ user.name }}"
+			class="bg-transparent border border-slate-400 rounded p-1"
+		/>
+	</label>
+	<label class="flex flex-col gap-1">
+		<span class="text-lg font-bold">Email</span>
+		<input
+			type="email"
+			name="email"
+			value="{{ user.email }}"
+			class="bg-transparent border border-slate-400 rounded p-1"
+		/>
+	</label>
+	<label class="flex flex-col gap-1">
+		<span class="text-lg font-bold">Password</span>
+		<input
+			type="password"
+			name="password"
+			class="bg-transparent border border-slate-400 rounded p-1"
+		/>
+	</label>
+	<label class="flex flex-col gap-1">
+		<span class="text-lg font-bold">Confirm Password</span>
+		<input
+			type="password"
+			name="password_confirmation"
+			class="bg-transparent border border-slate-400 rounded p-1"
+		/>
+	</label>
+	<button
+		type="submit"
+		class="bg-slate-400 text-white rounded p-1 hover:bg-slate-600"
+	>
+		{{ user.id ? "Update" : "Create" }}
+	</button>
+</form>
