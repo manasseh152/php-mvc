@@ -33,11 +33,6 @@ class Core
   protected array $params = [];
 
   /**
-   * @var mixed The query string from the request.
-   */
-  public mixed $query = [];
-
-  /**
    * Initializes the Core class.
    */
   public function __construct()
@@ -47,8 +42,9 @@ class Core
 
     $controller = $this->getControllerName($url);
 
-    if (!$controller)
+    if (!$controller) {
       $this->pageNotFound();
+    }
 
     $this->currentController = $this->loadController($controller);
 
@@ -63,31 +59,25 @@ class Core
   }
 
   /**
-   * Returns the URL segments from the request.
+   * Returns the URL segments and query parameters from the request.
    *
-   * @return array An array of URL segments.
+   * @return array An array containing URL segments and query parameters.
    */
   protected function getURL(): array
   {
     $url = isset($_SERVER['REQUEST_URI']) ? rtrim($_SERVER['REQUEST_URI'], '/') : 'homepages/index';
 
-    $this->query = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
-    if (!empty($query)) {
-      $url .= '?' . $query;
-    }
-
+    $url = explode('?', $url)[0];
     $url = filter_var($url, FILTER_SANITIZE_URL);
-
+    $url = $url === "/" ? null : $url;
     $url = explode('/', $url);
 
-    // Remove the "show" segment if it exists and the next segment is not empty
     if (isset($url[0]) && $url[0] === 'show' && isset($url[1]) && $url[1] !== '') {
       unset($url[0]);
     }
 
-    return array_slice($url, 1);
+    return array_slice($url, 1) === [''] ? [] : array_slice($url, 1);
   }
-
 
   /**
    * Determines the name of the controller to be called based on the URL segments.
@@ -170,13 +160,14 @@ class Core
       'appUrl' => $_ENV['APP_URL'],
       'appName' => $_ENV['APP_NAME'],
       'isDev' => $_ENV['APP_ENV'] === 'development',
+      'currentPath' => $_SERVER['REQUEST_URI'],
     ]);
   }
 
   public static function pageNotFound(): void
   {
     header('HTTP/1.0 404 Not Found');
-    echo self::$twig->render('errors/404.twig');
+    echo self::$twig->render('pages/errors/404.twig');
     exit;
   }
 

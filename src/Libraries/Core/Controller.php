@@ -4,6 +4,7 @@ namespace Src\Libraries\Core;
 
 use Twig\Environment;
 use Src\Libraries\Core\Core;
+use Src\Libraries\Core\Request;
 
 /**
  * Base Controller class for handling common functionality for controllers
@@ -31,6 +32,10 @@ class Controller
    * @var array
    */
   protected array $jsData = [];
+
+  public function __construct(public Request $request = new Request)
+  {
+  }
 
   /**
    * Redirect the client to a different page
@@ -75,7 +80,7 @@ class Controller
 
   public function pageNotFound(): void
   {
-    $this->view('errors/404');
+    Core::pageNotFound();
     exit;
   }
 
@@ -109,37 +114,5 @@ class Controller
   public function getData(): array
   {
     return $this->data;
-  }
-
-  /**
-   * Set the data that will be passed to javascript
-   *
-   * @param array $data The data to be set
-   * @return void
-   */
-  protected function setJsData(array $data): void
-  {
-    $this->jsData = $data;
-  }
-
-  /**
-   * Add data to the existing data array that will be passed to javascript
-   *
-   * @param array $data The data to be added
-   * @return void
-   */
-  public function addJsData(array $data): void
-  {
-    $this->jsData = array_merge($this->jsData, $data);
-  }
-
-  /**
-   * Get the data that will be passed to javascript
-   *
-   * @return array The data to be passed to javascript
-   */
-  public function getJsData(): array
-  {
-    return $this->jsData;
   }
 }
